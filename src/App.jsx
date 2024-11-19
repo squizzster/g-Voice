@@ -1,6 +1,24 @@
 import React from 'react';
+import { Bell } from 'lucide-react';
 
 const App = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() => {
+        alert("Thanks for your interest! We'll notify you when we launch.");
+        form.reset();
+      })
+      .catch((error) => alert(error));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       {/* Minimal Nav */}
@@ -22,68 +40,28 @@ const App = () => {
             Something revolutionary is coming. Be the first to experience the next generation of voice technology.
           </p>
 
-          {/* Simple Netlify Form */}
+          {/* Email Signup Form - Netlify Forms Compatible */}
           <form 
-            name="contact" 
-            method="POST" 
-            netlify 
-            className="max-w-md mx-auto mb-16 space-y-6 text-left"
+            name="signup"
+            method="POST"
+            onSubmit={handleSubmit}
+            className="max-w-md mx-auto mb-16"
           >
-            <div>
-              <label className="block text-slate-300 mb-2">
-                Your Name:
-                <input 
-                  type="text" 
-                  name="name" 
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors mt-1"
-                  required
-                />
-              </label>
-            </div>
-
-            <div>
-              <label className="block text-slate-300 mb-2">
-                Your Email:
-                <input 
-                  type="email" 
-                  name="email" 
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors mt-1"
-                  required
-                />
-              </label>
-            </div>
-
-            <div>
-              <label className="block text-slate-300 mb-2">
-                Your Role:
-                <select 
-                  name="role[]" 
-                  multiple 
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors mt-1"
-                >
-                  <option value="leader">Leader</option>
-                  <option value="follower">Follower</option>
-                </select>
-              </label>
-            </div>
-
-            <div>
-              <label className="block text-slate-300 mb-2">
-                Message:
-                <textarea 
-                  name="message" 
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors mt-1 h-32"
-                  required
-                ></textarea>
-              </label>
-            </div>
-
-            <div>
+            <input type="hidden" name="form-name" value="signup" />
+            
+            <div className="flex gap-2">
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                className="flex-1 px-4 py-3 rounded-full bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors"
+              />
               <button 
-                type="submit" 
-                className="w-full bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full font-semibold inline-flex items-center gap-2 transition-all hover:scale-105"
               >
-                Send Message
+                Notify Me <Bell className="w-4 h-4" />
               </button>
             </div>
           </form>
