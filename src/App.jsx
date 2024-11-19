@@ -32,7 +32,8 @@ const App = () => {
           </p>
 
           {/* Email Signup Form */}
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-16" netlify>
+       
+            <form name="contact"  className="max-w-md mx-auto mb-16"  netlify>
             <div className="flex gap-2">
               <input
                 type="email"
