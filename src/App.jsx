@@ -2,14 +2,6 @@ import React from 'react';
 import { Bell } from 'lucide-react';
 
 const App = () => {
-  const [email, setEmail] = React.useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle email submission
-    setEmail('');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       {/* Minimal Nav */}
@@ -31,15 +23,30 @@ const App = () => {
             Something revolutionary is coming. Be the first to experience the next generation of voice technology.
           </p>
 
-          {/* Email Signup Form */}
-       
-            <form name="contact"  className="max-w-md mx-auto mb-16"  netlify>
+          {/* Email Signup Form - Netlify Forms Compatible */}
+          <form 
+            name="signup"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            className="max-w-md mx-auto mb-16"
+          >
+            {/* Hidden input for Netlify */}
+            <input type="hidden" name="form-name" value="signup" />
+            
+            {/* Honeypot field to prevent spam */}
+            <p className="hidden">
+              <label>
+                Don't fill this out if you're human: <input name="bot-field" />
+              </label>
+            </p>
+
             <div className="flex gap-2">
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
                 placeholder="Enter your email"
+                required
                 className="flex-1 px-4 py-3 rounded-full bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors"
               />
               <button 
