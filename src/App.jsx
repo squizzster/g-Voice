@@ -2,6 +2,23 @@ import React from 'react';
 import { Bell } from 'lucide-react';
 
 const App = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() => {
+        alert("Thanks for your interest! We'll notify you when we launch.");
+        form.reset();
+      })
+      .catch((error) => alert(error));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       {/* Minimal Nav */}
@@ -27,20 +44,11 @@ const App = () => {
           <form 
             name="signup"
             method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
             className="max-w-md mx-auto mb-16"
           >
-            {/* Hidden input for Netlify */}
             <input type="hidden" name="form-name" value="signup" />
             
-            {/* Honeypot field to prevent spam */}
-            <p className="hidden">
-              <label>
-                Don't fill this out if you're human: <input name="bot-field" />
-              </label>
-            </p>
-
             <div className="flex gap-2">
               <input
                 type="email"
