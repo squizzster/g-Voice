@@ -51,19 +51,12 @@ const App = () => {
           </form>
 
           {/* Teaser Stats */}
-          <div className="grid md:grid-cols-3 gap-8 my-16">
+          <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto my-16">
             <div className="bg-slate-800/50 p-8 rounded-xl backdrop-blur-sm">
               <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 2024
               </div>
               <div className="text-slate-400">Launch Date</div>
-            </div>
-            
-            <div className="bg-slate-800/50 p-8 rounded-xl backdrop-blur-sm">
-              <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                10k+
-              </div>
-              <div className="text-slate-400">Waitlist Members</div>
             </div>
             
             <div className="bg-slate-800/50 p-8 rounded-xl backdrop-blur-sm">
