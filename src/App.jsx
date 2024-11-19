@@ -24,30 +24,30 @@ const App = () => {
           </p>
 
           {/* Email Signup Form - Netlify Forms Compatible */}
-          <form 
-            name="signup"
-            method="POST"
-            className="max-w-md mx-auto mb-16"
-			netlify
-          >
-            <input type="hidden" name="form-name" value="signup" />
-            
-            <div className="flex gap-2">
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                className="flex-1 px-4 py-3 rounded-full bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors"
-              />
-              <button 
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full font-semibold inline-flex items-center gap-2 transition-all hover:scale-105"
-              >
-                Notify Me <Bell className="w-4 h-4" />
-              </button>
-            </div>
-          </form>
+<form 
+  name="signup"
+  method="POST"
+  data-netlify="true"
+  className="max-w-md mx-auto mb-16"
+>
+  <input type="hidden" name="form-name" value="signup" />
+  <div className="flex gap-2">
+    <input
+      type="email"
+      name="email"
+      placeholder="Enter your email"
+      required
+      className="flex-1 px-4 py-3 rounded-full bg-slate-800/50 border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors"
+    />
+    <button 
+      type="submit"
+      className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full font-semibold inline-flex items-center gap-2 transition-all hover:scale-105"
+    >
+      Notify Me <Bell className="w-4 h-4" />
+    </button>
+  </div>
+</form>
+
 
           {/* Teaser Stats */}
           <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto my-16">
