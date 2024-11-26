@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>g-Voice Verify - Human Verification Made Simple</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sticky Nav -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-lg shadow-sm z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">g-Voice Verify</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#tech" class="text-gray-600 hover:text-blue-600 transition-colors">Technology</a>
+                    <a href="#user" class="text-gray-600 hover:text-blue-600 transition-colors">For Users</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+                    <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] opacity-10 bg-cover bg-center"></div>
+        <div class="container mx-auto px-6 py-32 relative">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        Verify Humans, <br/>Not Robots
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-blue-100 leading-relaxed">
+                        One simple question. 200ms response time.<br/>
+                        The fastest, most natural verification system ever created.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#tech" class="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition-colors text-center">
+                            See How It Works
+                        </a>
+                        <a href="#pricing" class="bg-blue-500 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-400 transition-colors text-center">
+                            View Pricing
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block float-animation">
+                    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl">
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-phone text-white text-xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold">Incoming Call</h3>
+                                    <p class="text-blue-200">g-Voice Verification</p>
+                                </div>
+                            </div>
+                            <div class="bg-blue-800/50 p-4 rounded-lg">
+                                <p class="text-lg">"What color is a banana?"</p>
+                            </div>
+                            <div class="bg-green-500/20 p-4 rounded-lg">
+                                <p class="text-lg">Response time: 180ms</p>
+                                <p class="text-green-300">✓ Human Verified</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-gray-50"></div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">200ms</div>
+                    <div class="text-gray-600">Average Response Time</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">125k+</div>
+                    <div class="text-gray-600">Unique Questions</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">99.9%</div>
+                    <div class="text-gray-600">Bot Detection Rate</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">190+</div>
+                    <div class="text-gray-600">Countries Covered</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Section -->
+    <section id="tech" class="py-32 bg-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white opacity-50"></div>
+        <div class="container mx-auto px-6 relative">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">How The Technology Works</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Leveraging human intuition and carrier-grade infrastructure to create unbeatable verification.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="bg-white p-8 rounded-2xl shadow-xl card-hover">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-stopwatch text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Sub-Second Response</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Our system measures response times in milliseconds. Humans react instinctively under 200ms - too fast for current AI.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-xl card-hover">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Intuitive Questions</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        125,000+ dynamic questions that tap into human intuition. Simple for people, impossible for bots.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-xl card-hover">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Carrier Verification</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Real phone numbers only. No VoIP or virtual numbers. Direct carrier integration for authentic verification.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-xl">
+                <div class="p-12 text-white">
+                    <h3 class="text-3xl font-bold mb-8 text-center">Why Bots Can't Keep Up</h3>
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-microphone text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Speech Recognition</h4>
+                                    <p class="text-blue-200">300-500ms</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-cog text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">AI Processing</h4>
+                                    <p class="text-blue-200">100-200ms</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-volume-up text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Text-to-Speech</h4>
+                                    <p class="text-blue-200">500ms+</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-5xl font-bold mb-4">900-1200ms</div>
+                                <p class="text-xl text-blue-200">Total Bot Processing Time</p>
+                                <div class="mt-4 text-red-300">✗ Too Slow for g-Voice</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Section -->
+    <section id="user" class="py-32 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">The User Experience</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Simple, fast, and stress-free verification that just works.
+                </p>
+            </div>
+
+            <div class="max-w-5xl mx-auto">
+                <div class="relative">
+                    <div class="absolute left-8 inset-y-0 w-0.5 bg-blue-200"></div>
+                    <div class="space-y-12">
+                        <div class="relative">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10">
+                                    1
+                                </div>
+                                <h3 class="text-2xl font-bold ml-8">Receive the Call</h3>
+                            </div>
+                            <div class="ml-24">
+                                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                    <p class="text-gray-600 text-lg leading-relaxed">
+                                        g-Voice calls at your scheduled time. No rushing, no stress. You choose when you're ready.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10">
+                                    2
+                                </div>
+                                <h3 class="text-2xl font-bold ml-8">Answer One Question</h3>
+                            </div>
+                            <div class="ml-24">
+                                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                    <p class="text-gray-600 text-lg leading-relaxed">
+                                        A simple, intuitive question like "What color is a banana?" No puzzles, no complex challenges.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+ <div class="relative">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10">
+                                    3
+                                </div>
+                                <h3 class="text-2xl font-bold ml-8">Natural Response</h3>
+                            </div>
+                            <div class="ml-24">
+                                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                    <p class="text-gray-600 text-lg leading-relaxed">
+                                        Just answer naturally - your instinctive response proves you're human. No thinking required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10">
+                                    4
+                                </div>
+                                <h3 class="text-2xl font-bold ml-8">Instant Verification</h3>
+                            </div>
+                            <div class="ml-24">
+                                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                    <p class="text-gray-600 text-lg leading-relaxed">
+                                        That's it! You're verified and ready to proceed. No additional steps or complex processes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-32 bg-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white opacity-50"></div>
+        <div class="container mx-auto px-6 relative">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    No hidden fees. No complex tiers. Just straightforward pricing that scales with your needs.
+                </p>
+            </div>
+
+            <div class="max-w-lg mx-auto">
+                <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-12 text-center">
+                        <div class="text-6xl font-bold mb-2">$0.10</div>
+                        <p class="text-xl text-blue-200">per verification</p>
+                    </div>
+                    <div class="p-12">
+                        <ul class="space-y-6">
+                            <li class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <span class="text-lg">No monthly fees</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <span class="text-lg">Pay only for successful verifications</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <span class="text-lg">Volume discounts available</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <span class="text-lg">Global coverage included</span>
+                            </li>
+                        </ul>
+                        <button class="w-full mt-12 bg-blue-600 text-white py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition-colors">
+                            Start Verifying Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-24">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-8">Ready to Stop Bots?</h2>
+            <p class="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+                Join thousands of companies using g-Voice Verify to protect their platforms and ensure real human interactions.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="#" class="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition-colors">
+                    Get Started Free
+                </a>
+                <a href="#" class="bg-blue-500 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-400 transition-colors">
+                    Schedule Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">g-Voice</span>
+                    </div>
+                    <p class="text-gray-400">
+                        Part of the g-Ticket ecosystem
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20 pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2024 g-Voice Verify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
