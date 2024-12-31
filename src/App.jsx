@@ -48,7 +48,7 @@ const App = () => {
           <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto my-16">
             <div className="bg-slate-800/50 p-8 rounded-xl backdrop-blur-sm">
               <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                2024
+                2025
               </div>
               <div className="text-slate-400">Launch Date</div>
             </div>
@@ -65,7 +65,7 @@ const App = () => {
 
       {/* Footer */}
       <footer className="absolute bottom-0 w-full border-t border-slate-700 py-8 text-slate-400 text-center">
-        <p>© 2024 g-Voice. All rights reserved.</p>
+        <p>© 2025 g-Voice. All rights reserved.</p>
       </footer>
     </div>
   );
