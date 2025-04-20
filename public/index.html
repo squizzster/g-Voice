@@ -1,15 +1,25 @@
-<!-- public/index.html -->
-<body>
-  <!-- …your root #app div… -->
-  <div id="root"></div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>g‑Voice</title>
+  </head>
+  <body>
+    <div id="root"></div>
 
-  <!-- Netlify needs to see this at build time: -->
-  <form name="signup" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="hidden" name="form-name" value="signup" />
-    <p class="hidden">
-      <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
-    </p>
-    <input type="email" name="email" />
-    <button type="submit">Submit</button>
-  </form>
-</body>
+    <!-- Netlify form stub: ensures Netlify sees this at build time -->
+    <form name="signup" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <!-- Honeypot to prevent spam -->
+      <p class="hidden">
+        <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+      </p>
+      <input type="hidden" name="form-name" value="signup" />
+      <input type="email" name="email" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
