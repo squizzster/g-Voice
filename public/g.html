@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>g-Voice</title>
+  <style>
+    /* Reset & base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(ellipse at center, #0f0f1a 0%, #050509 100%);
+      color: #fff;
+      height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Animated background “glow” */
+    body::before {
+      content: '';
+      position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(196,108,255,0.2), transparent 60%),
+                  radial-gradient(circle at 70% 70%, rgba(164,91,255,0.2), transparent 60%);
+      animation: bgRotate 20s linear infinite;
+      z-index: 0;
+    }
+    @keyframes bgRotate {
+      from { transform: rotate(0deg) scale(1); }
+      to   { transform: rotate(360deg) scale(1.1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 340px;
+      text-align: center;
+      padding: 3rem 2rem 4rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      box-shadow: 0 0 30px rgba(164, 91, 255, 0.4);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #c46cff, #a45bff);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(196,108,255,0.4);
+    }
+
+    .tagline {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #a45bff, #c68cff);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: glowText 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 5px rgba(198, 140, 255, 0.4); }
+      to   { text-shadow: 0 0 20px rgba(198, 140, 255, 0.8); }
+    }
+
+    .mic-wrapper {
+      margin-top: 2.5rem;
+    }
+
+    .mic-button {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #a45bff, #c46cff);
+      box-shadow:
+        0 0 25px rgba(164, 91, 255, 0.7),
+        0 0 50px rgba(196, 108, 255, 0.6),
+        inset 0 0 10px rgba(255, 255, 255, 0.25);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      animation: pulse 3s ease-out infinite;
+    }
+    .mic-button:hover {
+      transform: scale(1.15);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow:
+        0 0 20px rgba(164, 91, 255, 0.6),
+        0 0 40px rgba(196, 108, 255, 0.5),
+        inset 0 0 8px rgba(255, 255, 255, 0.2);
+      }
+      50% { box-shadow:
+        0 0 35px rgba(164, 91, 255, 0.85),
+        0 0 70px rgba(196, 108, 255, 0.7),
+        inset 0 0 12px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .mic-button svg {
+      width: 44px; height: 44px;
+      fill: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">g-<span>Voice</span></div>
+    <div class="tagline">Conversational DNA</div>
+    <div class="mic-wrapper">
+      <div class="mic-button" onclick="startCall()">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/>
+          <path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.08A7 7 0 0 0 19 11z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function startCall() {
+      alert("Call initiated with g-Voice!");
+    }
+  </script>
+</body>
+</html>
