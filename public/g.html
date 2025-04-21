@@ -9,8 +9,10 @@
   <style>
     /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: auto; }
+    html { height: 100%; /* Helps with body min-height */ }
     body {
+      min-height: 100vh; /* Use min-height instead of height for flexibility */
+      overflow: hidden; /* Prevent scrollbars caused by large elements/effects */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -18,7 +20,7 @@
       background: #050509;
       color: #fff;
       position: relative;
-      padding: 1rem;
+      /* Removed padding: 1rem; - Let container handle spacing */
     }
 
     /* Rotating glow background */
@@ -45,17 +47,38 @@
       z-index: 1;
       width: 90vw;
       max-width: 480px;
-      padding: 4vw 3vw;
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem); /* Adjusted padding slightly */
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2vh;
+      gap: clamp(1rem, 2vh, 1.5rem); /* Adjusted gap */
       border-radius: 2rem;
       background: rgba(15,15,25,0.1);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 0 70px rgba(164,91,255,0.5);
+      /* Updated Border & Box Shadow */
+      border: 1px solid rgba(255, 255, 255, 0.15); /* Slightly more visible base border */
+      box-shadow:
+        0 0 50px rgba(164, 91, 255, 0.4), /* Original purple glow (slightly reduced intensity) */
+        0 0 15px rgba(255, 255, 255, 0.2); /* Base white glow */
+      animation: borderGlow 4s ease-in-out infinite alternate; /* Added glow animation */
     }
+
+    /* Border Glow Animation */
+    @keyframes borderGlow {
+      from {
+        box-shadow:
+          0 0 50px rgba(164, 91, 255, 0.4),
+          0 0 15px rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+      to {
+        box-shadow:
+          0 0 60px rgba(164, 91, 255, 0.5), /* Slightly stronger purple */
+          0 0 30px rgba(255, 255, 255, 0.4); /* Stronger white glow */
+        border-color: rgba(255, 255, 255, 0.3); /* Brighter border */
+      }
+    }
+
 
     /* Responsive Typography */
     .logo {
@@ -65,9 +88,11 @@
       text-shadow: 0 0 10px rgba(164,91,255,0.7);
       position: relative;
       display: inline-block;
-      overflow: hidden;
+      overflow: hidden; /* Keep for glitch effect */
+      /* Removed hover animation for glitch - can be distracting with tilt */
     }
-    .logo:hover { animation: glitch 1s steps(2) infinite; }
+    /* Optional: If you want the glitch back on hover */
+    /* .logo:hover { animation: glitch 1s steps(2) infinite; } */
     @keyframes glitch {
       0% { clip-path: inset(0 0 5% 0); transform: translate(0); }
       20% { clip-path: inset(5% 0 0 0); transform: translate(-2px,2px); }
@@ -77,15 +102,16 @@
       100% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
-    .strapline { display: flex; flex-direction: column; align-items: center; gap: 1vh; }
+    .strapline { display: flex; flex-direction: column; align-items: center; gap: clamp(0.5rem, 1vh, 0.8rem); } /* Adjusted gap */
     .tagline {
-      font-size: clamp(1rem, 4vw, 1.4rem);
-      letter-spacing: 2px;
-      white-space: nowrap;
-      overflow: hidden;
+      font-size: clamp(0.9rem, 3vw, 1.3rem); /* Slightly adjusted clamp */
+      letter-spacing: 1.5px; /* Slightly reduced spacing */
+      text-align: center; /* Ensure centering if text wraps */
+      min-height: 2.5em; /* Reserve space during typing */
+      /* Removed white-space/overflow from base style - handled by JS */
     }
     .divider {
-      width: clamp(4rem, 20vw, 100px);
+      width: clamp(4rem, 15vw, 80px); /* Adjusted clamp */
       height: 2px;
       background: linear-gradient(90deg,#a45bff,#c46cff);
       filter: drop-shadow(0 0 6px rgba(196,108,255,0.7));
@@ -95,21 +121,22 @@
     .mic-btn {
       position: relative;
       z-index: 2;
-      width: clamp(80px, 25vw, 120px);
-      height: clamp(80px, 25vw, 120px);
+      width: clamp(70px, 20vw, 110px); /* Slightly adjusted clamp */
+      height: clamp(70px, 20vw, 110px); /* Slightly adjusted clamp */
       border-radius: 50%;
       background: linear-gradient(145deg,#a45bff,#c46cff);
-      box-shadow: 0 0 40px rgba(164,91,255,0.7), inset 0 0 14px rgba(255,255,255,0.25);
+      box-shadow: 0 0 30px rgba(164,91,255,0.6), inset 0 0 12px rgba(255,255,255,0.2); /* Adjusted shadow */
       cursor: pointer;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: transform 0.1s ease-out;
+      margin-top: clamp(0.5rem, 1vh, 1rem); /* Add some top margin */
     }
     .mic-btn svg {
-      width: clamp(32px, 10vw, 56px);
-      height: clamp(32px, 10vw, 56px);
+      width: clamp(30px, 8vw, 48px); /* Adjusted clamp */
+      height: clamp(30px, 8vw, 48px); /* Adjusted clamp */
       fill: #fff;
     }
 
@@ -117,15 +144,17 @@
     .wave {
       position: absolute;
       top: 50%; left: 50%;
-      width: inherit;
-      height: inherit;
+      /* Use width/height from parent */
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      border: 3px solid rgba(196,108,255,0.6);
+      border: 2px solid rgba(196,108,255,0.6); /* Slightly thinner */
       transform: translate(-50%,-50%) scale(0);
       opacity: 0;
+      pointer-events: none; /* Prevent waves interfering with clicks */
     }
     .wave.animate { animation: wavePulse 1.5s ease-out forwards; }
-    @keyframes wavePulse { 0% { transform: translate(-50%,-50%) scale(0.1); opacity: 0.8; } 100% { transform: translate(-50%,-50%) scale(2); opacity: 0; } }
+    @keyframes wavePulse { 0% { transform: translate(-50%,-50%) scale(0.1); opacity: 0.8; } 100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; } } /* Slightly larger scale */
   </style>
 
   <!-- Libraries -->
@@ -148,25 +177,26 @@
 
   <script>
     // Initialize particles
-    tsParticles.load('tsparticles', { fpsLimit:60, particles:{ number:{value:150,density:{enable:true,area:1000}},color:{value:['#a45bff','#c46cff','#ffffff','#8a2be2']},shape:{type:['circle','triangle']},opacity:{value:{min:0.1,max:0.6},animation:{enable:true,speed:0.8,minimumValue:0.1}},size:{value:{min:1,max:4},animation:{enable:true,speed:4,minimumValue:0.5}},move:{enable:true,speed:2.5,random:true,straight:false,outModes:{default:'out'},trail:{enable:true,length:8,fillColor:'#050509'}},links:{enable:true,distance:100,color:'random',opacity:0.4,width:1.5}},interactivity:{events:{onHover:{enable:true,mode:'repulse'}},modes:{repulse:{distance:120,duration:0.4}}},detectRetina:true,background:{color:'#050509'}});
+    tsParticles.load('tsparticles', { fpsLimit:60, particles:{ number:{value:120,density:{enable:true,area:1000}},color:{value:['#a45bff','#c46cff','#ffffff','#8a2be2']},shape:{type:['circle','triangle']},opacity:{value:{min:0.1,max:0.5},animation:{enable:true,speed:0.8,minimumValue:0.1}},size:{value:{min:1,max:3},animation:{enable:true,speed:3,minimumValue:0.5}},move:{enable:true,speed:2,random:true,straight:false,outModes:{default:'out'},trail:{enable:true,length:6,fillColor:'#050509'}},links:{enable:true,distance:100,color:'random',opacity:0.3,width:1}},interactivity:{events:{onHover:{enable:true,mode:'repulse'}},modes:{repulse:{distance:100,duration:0.4}}},detectRetina:true,background:{color:'#050509'}}); // Slightly reduced particle count/size/speed for performance
 
     // Tilt effect
     VanillaTilt.init(document.querySelector('.container'));
 
     // Entrance animations
-    gsap.from('.logo',{y:-50,opacity:0,duration:1,ease:'power3.out'});
-    gsap.from('.strapline',{y:50,opacity:0,duration:1,delay:0.5,ease:'power3.out'});
-    gsap.from('.mic-btn',{scale:0,opacity:0,duration:1,delay:1,ease:'back.out(1.7)',clearProps:'transform'});
+    gsap.from('.logo',{y:-40,opacity:0,duration:0.8,delay: 0.2, ease:'power3.out'});
+    gsap.from('.strapline',{y:40,opacity:0,duration:0.8,delay:0.6,ease:'power3.out'});
+    gsap.from('.mic-btn',{scale:0,opacity:0,duration:0.8,delay:1,ease:'back.out(1.7)',clearProps:'transform'});
 
     // Strapline typing sequence
     document.addEventListener('DOMContentLoaded', () => {
-	  const lines = [
+      const lines = [
         "The future isn't scripted",
         "It's digital consciousness",
         "Conversational intelligence",
         "The DNA of conversation"
       ];
       const taglineEl = document.querySelector('.tagline');
+      let currentTimeout; // To clear timeout if needed
 
       function typeText(el, text, callback) {
         el.textContent = '';
@@ -175,71 +205,154 @@
         el.style.borderRight = '.15em solid rgba(196,108,255,0.8)';
         let i = 0;
         const interval = setInterval(() => {
+          if (!el) { // Check if element still exists
+             clearInterval(interval);
+             return;
+          }
           el.textContent += text.charAt(i);
           i++;
           if (i >= text.length) {
             clearInterval(interval);
-            el.style.borderRight = 'none';
-            if (callback) callback();
+            // Keep cursor for a moment before removing
+            setTimeout(() => {
+                if (el) el.style.borderRight = 'none';
+                if (callback) callback();
+            }, 500); // Wait 500ms before callback
           }
-        }, 100);
+        }, 80); // Slightly faster typing
       }
 
       function showLine(index) {
-        typeText(taglineEl, lines[index], () => {
-          if (index < lines.length - 1) {
-            setTimeout(() => showLine(index + 1), 5000);
-          } else {
-            taglineEl.style.whiteSpace = 'normal';
-            taglineEl.style.overflow = 'visible';
-          }
-        });
+         clearTimeout(currentTimeout); // Clear previous timeout if any
+         if (!taglineEl) return; // Stop if element is gone
+
+         const currentLine = lines[index % lines.length]; // Loop through lines
+         typeText(taglineEl, currentLine, () => {
+            // Don't reset styles here, let typeText handle it
+            // Schedule next line
+            currentTimeout = setTimeout(() => showLine(index + 1), 4000); // Wait 4 seconds before next line
+         });
       }
 
-      showLine(0);
+      // Start the sequence slightly delayed after intro animations
+      setTimeout(() => showLine(0), 1500);
     });
 
     // Audio animation
-    const micBtn = document.querySelector('.mic-btn'); let audioCtx, analyser, dataArray, isAnimating = false;
+    const micBtn = document.querySelector('.mic-btn');
+    let audioCtx, analyser, sourceNode, dataArray, animationFrameId, isAnimating = false;
+
     async function startCall() {
-      if (audioCtx && audioCtx.state === 'running') return;
-      alert('Call initiated with g-Voice!');
+      if (isAnimating) return; // Prevent multiple initializations
+
+      // Simple feedback
+      console.log('Attempting to initiate call...');
+      // You might replace the alert with a more subtle UI change
+      // alert('Call initiated with g-Voice!');
+
       try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        // Resume context if suspended (e.g., by browser policy)
+        if (audioCtx.state === 'suspended') {
+            await audioCtx.resume();
+        }
+
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const source = audioCtx.createMediaStreamSource(stream);
-        analyser = audioCtx.createAnalyser(); analyser.fftSize = 256;
-        analyser.smoothingTimeConstant = 0.6;
-        source.connect(analyser);
+        sourceNode = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.7; // Slightly smoother
+
+        sourceNode.connect(analyser);
         dataArray = new Uint8Array(analyser.frequencyBinCount);
-        if (!isAnimating) { animateVoice(); isAnimating = true; }
+
+        isAnimating = true;
+        animateVoice(); // Start animation loop
+
       } catch (err) {
         console.error('Error accessing microphone:', err);
-        alert('Could not access microphone. Please ensure permission is granted.');
+        alert('Could not access microphone. Please ensure permission is granted and try again.');
+        // Clean up if error occurs after context creation
+        if (audioCtx && audioCtx.state !== 'closed') {
+            // Don't close context immediately, user might grant permission later
+            // audioCtx.close().catch(console.error);
+            // audioCtx = null;
+        }
+        isAnimating = false; // Reset flag
       }
     }
+
     function animateVoice() {
-      if (!audioCtx || audioCtx.state === 'closed') {
+      if (!isAnimating || !analyser || !audioCtx || audioCtx.state === 'closed') {
+        // Stop condition
+        gsap.to(micBtn, { scale: 1, duration: 0.3, ease: 'power1.out' });
         isAnimating = false;
-        gsap.to(micBtn, { scale: 1, duration: 0.3 });
+        cancelAnimationFrame(animationFrameId);
         return;
       }
-      requestAnimationFrame(animateVoice);
+
+      animationFrameId = requestAnimationFrame(animateVoice); // Continue loop
+
       analyser.getByteFrequencyData(dataArray);
       const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-      const scale = 1 + (avg / 255) * 0.3;
-      gsap.to(micBtn, { scale, duration: 0.1, ease: 'power1.out' });
-      if (avg > 100 && Math.random() > 0.85) createWave();
+      // Map average volume (0-255) to scale (1.0 - 1.3) more sensitively at lower volumes
+      const scale = 1 + Math.pow(avg / 255, 1.5) * 0.3; // Use power curve for sensitivity
+      gsap.to(micBtn, { scale, duration: 0.08, ease: 'linear' }); // Faster, linear update
+
+      // Trigger wave more reliably on peaks
+      if (avg > 90 && Math.random() > 0.9) { // Lower threshold, higher probability but still random
+          createWave();
+      }
     }
-    let waveCount = 0, MAX_WAVES = 5;
+
+    let waveCount = 0;
+    const MAX_WAVES = 4; // Limit concurrent waves
+
     function createWave() {
-      if (waveCount >= MAX_WAVES) return;
+      if (waveCount >= MAX_WAVES || !micBtn) return; // Check if micBtn exists
       waveCount++;
-      const wave = document.createElement('div'); wave.className = 'wave animate';
+
+      const wave = document.createElement('div');
+      wave.className = 'wave animate';
       micBtn.appendChild(wave);
-      wave.addEventListener('animationend', () => { wave.remove(); waveCount--; });
+
+      // Use GSAP for potentially smoother animation end handling
+      gsap.to(wave, {
+          scale: 2.2, // Match CSS @keyframes
+          opacity: 0,
+          duration: 1.5, // Match CSS @keyframes
+          ease: 'ease-out', // Match CSS @keyframes
+          onComplete: () => {
+              wave.remove();
+              waveCount--;
+          }
+      });
+      // Fallback listener in case GSAP fails or is interrupted
+      wave.addEventListener('animationend', () => {
+          if (wave.parentNode) { // Check if still attached
+             wave.remove();
+             // Ensure waveCount is decremented even if GSAP didn't fire onComplete
+             // This check prevents double decrementing if both fire.
+             if (waveCount > 0 && !gsap.isTweening(wave)) waveCount--;
+          }
+      }, { once: true }); // Use { once: true } for safety
     }
-    window.addEventListener('beforeunload', () => { if (audioCtx && audioCtx.state !== 'closed') audioCtx.close(); });
+
+    // Clean up audio context when the page is unloaded
+    window.addEventListener('beforeunload', () => {
+      if (sourceNode) {
+          sourceNode.disconnect(); // Disconnect analyser
+          sourceNode.mediaStream.getTracks().forEach(track => track.stop()); // Stop mic track
+      }
+      if (audioCtx && audioCtx.state !== 'closed') {
+        audioCtx.close().catch(console.error);
+      }
+      isAnimating = false; // Ensure animation stops
+      cancelAnimationFrame(animationFrameId);
+    });
+
   </script>
 </body>
 </html>
