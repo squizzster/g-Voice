@@ -295,7 +295,7 @@
         const txt = lines[idx];
         let speed = defaultSpeed;
         if (txt === specialLine) {
-          const rnd = Math.floor(Math.random()*specialEffects.length);
+          const rnd = 0; //Math.floor(Math.random()*specialEffects.length);
           tsParticles.load('tsparticles', specialEffects[rnd]);
           speed = specialSpeed;
         }
