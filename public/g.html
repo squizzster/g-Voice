@@ -83,12 +83,7 @@
       letter-spacing: 2px;
       white-space: nowrap;
       overflow: hidden;
-      border-right: .15em solid rgba(196,108,255,0.8);
-      width: 0;
-      animation: typing 3s steps(20,end) 0.7s forwards, blink 0.75s step-end infinite;
     }
-    @keyframes typing { to { width: 20ch; } }
-    @keyframes blink { 50% { border-color: transparent; } }
     .divider {
       width: clamp(4rem, 20vw, 100px);
       height: 2px;
@@ -144,13 +139,16 @@
 
   <div class="container" data-tilt data-tilt-max="15" data-tilt-scale="1.05">
     <div class="logo">g-<span>Voice</span></div>
-    <div class="strapline"><div class="tagline">Conversational DNA</div><div class="divider"></div></div>
+    <div class="strapline">
+      <div class="tagline"></div>
+      <div class="divider"></div>
+    </div>
     <div class="mic-btn" onclick="startCall()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.08A7 7 0 0 0 19 11z"/></svg></div>
   </div>
 
   <script>
     // Initialize particles
-    tsParticles.load('tsparticles',{ fpsLimit:60, particles:{ number:{value:150,density:{enable:true,area:1000}},color:{value:['#a45bff','#c46cff','#ffffff','#8a2be2']},shape:{type:['circle','triangle']},opacity:{value:{min:0.1,max:0.6},animation:{enable:true,speed:0.8,minimumValue:0.1}},size:{value:{min:1,max:4},animation:{enable:true,speed:4,minimumValue:0.5}},move:{enable:true,speed:2.5,random:true,straight:false,outModes:{default:'out'},trail:{enable:true,length:8,fillColor:'#050509'}},links:{enable:true,distance:100,color:'random',opacity:0.4,width:1.5}},interactivity:{events:{onHover:{enable:true,mode:'repulse'}},modes:{repulse:{distance:120,duration:0.4}}},detectRetina:true,background:{color:'#050509'}});
+    tsParticles.load('tsparticles', { fpsLimit:60, particles:{ number:{value:150,density:{enable:true,area:1000}},color:{value:['#a45bff','#c46cff','#ffffff','#8a2be2']},shape:{type:['circle','triangle']},opacity:{value:{min:0.1,max:0.6},animation:{enable:true,speed:0.8,minimumValue:0.1}},size:{value:{min:1,max:4},animation:{enable:true,speed:4,minimumValue:0.5}},move:{enable:true,speed:2.5,random:true,straight:false,outModes:{default:'out'},trail:{enable:true,length:8,fillColor:'#050509'}},links:{enable:true,distance:100,color:'random',opacity:0.4,width:1.5}},interactivity:{events:{onHover:{enable:true,mode:'repulse'}},modes:{repulse:{distance:120,duration:0.4}}},detectRetina:true,background:{color:'#050509'}});
 
     // Tilt effect
     VanillaTilt.init(document.querySelector('.container'));
@@ -160,12 +158,88 @@
     gsap.from('.strapline',{y:50,opacity:0,duration:1,delay:0.5,ease:'power3.out'});
     gsap.from('.mic-btn',{scale:0,opacity:0,duration:1,delay:1,ease:'back.out(1.7)',clearProps:'transform'});
 
+    // Strapline typing sequence
+    document.addEventListener('DOMContentLoaded', () => {
+	  const lines = [
+        "The future isn't scripted",
+        "It's digital consciousness",
+        "Conversational intelligence",
+        "The DNA of conversation"
+      ];
+      const taglineEl = document.querySelector('.tagline');
+
+      function typeText(el, text, callback) {
+        el.textContent = '';
+        el.style.whiteSpace = 'nowrap';
+        el.style.overflow = 'hidden';
+        el.style.borderRight = '.15em solid rgba(196,108,255,0.8)';
+        let i = 0;
+        const interval = setInterval(() => {
+          el.textContent += text.charAt(i);
+          i++;
+          if (i >= text.length) {
+            clearInterval(interval);
+            el.style.borderRight = 'none';
+            if (callback) callback();
+          }
+        }, 100);
+      }
+
+      function showLine(index) {
+        typeText(taglineEl, lines[index], () => {
+          if (index < lines.length - 1) {
+            setTimeout(() => showLine(index + 1), 5000);
+          } else {
+            taglineEl.style.whiteSpace = 'normal';
+            taglineEl.style.overflow = 'visible';
+          }
+        });
+      }
+
+      showLine(0);
+    });
+
     // Audio animation
-    const micBtn=document.querySelector('.mic-btn');let audioCtx,analyser,dataArray,isAnimating=false;
-    async function startCall(){if(audioCtx&&audioCtx.state==='running')return;alert('Call initiated with g-Voice!');try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});audioCtx=new(window.AudioContext||window.webkitAudioContext)();const source=audioCtx.createMediaStreamSource(stream);analyser=audioCtx.createAnalyser();analyser.fftSize=256;analyser.smoothingTimeConstant=0.6;source.connect(analyser);dataArray=new Uint8Array(analyser.frequencyBinCount);if(!isAnimating){animateVoice();isAnimating=true;}}catch(err){console.error('Error accessing microphone:',err);alert('Could not access microphone. Please ensure permission is granted.');}}
-    function animateVoice(){if(!audioCtx||audioCtx.state==='closed'){isAnimating=false;gsap.to(micBtn,{scale:1,duration:0.3});return;}requestAnimationFrame(animateVoice);analyser.getByteFrequencyData(dataArray);const avg=dataArray.reduce((a,b)=>a+b,0)/dataArray.length;const scale=1+(avg/255)*0.3;gsap.to(micBtn,{scale,duration:0.1,ease:'power1.out'});if(avg>100&&Math.random()>0.85)createWave();}
-    let waveCount=0,MAX_WAVES=5;function createWave(){if(waveCount>=MAX_WAVES)return;waveCount++;const wave=document.createElement('div');wave.className='wave animate';micBtn.appendChild(wave);wave.addEventListener('animationend',()=>{wave.remove();waveCount--;});}
-    window.addEventListener('beforeunload',()=>{if(audioCtx&&audioCtx.state!=='closed')audioCtx.close();});
+    const micBtn = document.querySelector('.mic-btn'); let audioCtx, analyser, dataArray, isAnimating = false;
+    async function startCall() {
+      if (audioCtx && audioCtx.state === 'running') return;
+      alert('Call initiated with g-Voice!');
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser(); analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.6;
+        source.connect(analyser);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        if (!isAnimating) { animateVoice(); isAnimating = true; }
+      } catch (err) {
+        console.error('Error accessing microphone:', err);
+        alert('Could not access microphone. Please ensure permission is granted.');
+      }
+    }
+    function animateVoice() {
+      if (!audioCtx || audioCtx.state === 'closed') {
+        isAnimating = false;
+        gsap.to(micBtn, { scale: 1, duration: 0.3 });
+        return;
+      }
+      requestAnimationFrame(animateVoice);
+      analyser.getByteFrequencyData(dataArray);
+      const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+      const scale = 1 + (avg / 255) * 0.3;
+      gsap.to(micBtn, { scale, duration: 0.1, ease: 'power1.out' });
+      if (avg > 100 && Math.random() > 0.85) createWave();
+    }
+    let waveCount = 0, MAX_WAVES = 5;
+    function createWave() {
+      if (waveCount >= MAX_WAVES) return;
+      waveCount++;
+      const wave = document.createElement('div'); wave.className = 'wave animate';
+      micBtn.appendChild(wave);
+      wave.addEventListener('animationend', () => { wave.remove(); waveCount--; });
+    }
+    window.addEventListener('beforeunload', () => { if (audioCtx && audioCtx.state !== 'closed') audioCtx.close(); });
   </script>
 </body>
 </html>
