@@ -9,7 +9,7 @@
   <style>
     /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: hidden; }
+    html, body { height: 100%; overflow: auto; }
     body {
       display: flex;
       align-items: center;
@@ -18,6 +18,7 @@
       background: #050509;
       color: #fff;
       position: relative;
+      padding: 1rem;
     }
 
     /* Rotating glow background */
@@ -39,10 +40,33 @@
     #tsparticles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
 
     /* Main container */
-    .container { position: relative; z-index: 1; width: 480px; height: 420px; padding: 4rem 3rem; display: flex; flex-direction: column; align-items: center; gap: 2rem; border-radius: 24px; background: rgba(15,15,25,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 0 70px rgba(164,91,255,0.5); }
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 90vw;
+      max-width: 480px;
+      padding: 4vw 3vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2vh;
+      border-radius: 2rem;
+      background: rgba(15,15,25,0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 0 70px rgba(164,91,255,0.5);
+    }
 
-    /* Logo glitch */
-    .logo { font-size: 3.4rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(164,91,255,0.7); position: relative; display: inline-block; overflow: hidden; }
+    /* Responsive Typography */
+    .logo {
+      font-size: clamp(2rem, 8vw, 3.4rem);
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(164,91,255,0.7);
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+    }
     .logo:hover { animation: glitch 1s steps(2) infinite; }
     @keyframes glitch {
       0% { clip-path: inset(0 0 5% 0); transform: translate(0); }
@@ -53,19 +77,58 @@
       100% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
-    /* Strapline & tagline */
-    .strapline { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
-    .tagline { font-size: 1.4rem; letter-spacing: 2px; white-space: nowrap; overflow: hidden; border-right: .15em solid rgba(196,108,255,0.8); width: 0; animation: typing 3s steps(20,end) 0.7s forwards, blink 0.75s step-end infinite; }
+    .strapline { display: flex; flex-direction: column; align-items: center; gap: 1vh; }
+    .tagline {
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      letter-spacing: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: .15em solid rgba(196,108,255,0.8);
+      width: 0;
+      animation: typing 3s steps(20,end) 0.7s forwards, blink 0.75s step-end infinite;
+    }
     @keyframes typing { to { width: 20ch; } }
     @keyframes blink { 50% { border-color: transparent; } }
-    .divider { width: 100px; height: 2px; background: linear-gradient(90deg,#a45bff,#c46cff); filter: drop-shadow(0 0 6px rgba(196,108,255,0.7)); }
+    .divider {
+      width: clamp(4rem, 20vw, 100px);
+      height: 2px;
+      background: linear-gradient(90deg,#a45bff,#c46cff);
+      filter: drop-shadow(0 0 6px rgba(196,108,255,0.7));
+    }
 
     /* Microphone button */
-    .mic-btn { position: relative; z-index: 2; width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(145deg,#a45bff,#c46cff); box-shadow: 0 0 40px rgba(164,91,255,0.7), inset 0 0 14px rgba(255,255,255,0.25); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.1s ease-out; }
-    .mic-btn svg { width: 56px; height: 56px; fill: #fff; }
+    .mic-btn {
+      position: relative;
+      z-index: 2;
+      width: clamp(80px, 25vw, 120px);
+      height: clamp(80px, 25vw, 120px);
+      border-radius: 50%;
+      background: linear-gradient(145deg,#a45bff,#c46cff);
+      box-shadow: 0 0 40px rgba(164,91,255,0.7), inset 0 0 14px rgba(255,255,255,0.25);
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease-out;
+    }
+    .mic-btn svg {
+      width: clamp(32px, 10vw, 56px);
+      height: clamp(32px, 10vw, 56px);
+      fill: #fff;
+    }
 
     /* Wave effect */
-    .wave { position: absolute; top: 50%; left: 50%; width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(196,108,255,0.6); transform: translate(-50%,-50%) scale(0); opacity: 0; }
+    .wave {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: inherit;
+      height: inherit;
+      border-radius: 50%;
+      border: 3px solid rgba(196,108,255,0.6);
+      transform: translate(-50%,-50%) scale(0);
+      opacity: 0;
+    }
     .wave.animate { animation: wavePulse 1.5s ease-out forwards; }
     @keyframes wavePulse { 0% { transform: translate(-50%,-50%) scale(0.1); opacity: 0.8; } 100% { transform: translate(-50%,-50%) scale(2); opacity: 0; } }
   </style>
