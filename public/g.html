@@ -1,145 +1,108 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>g-Voice</title>
+
+  <!-- Core Styles -->
   <style>
+    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; overflow: hidden; }
     body {
-      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: radial-gradient(ellipse at center, #0f0f1a 0%, #050509 100%);
-      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #050509;
+      color: #fff;
       position: relative;
     }
-    /* Rotating subtle glow background */
+
+    /* Rotating glow background */
     body::before {
       content: '';
       position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
+      top: -75%; left: -75%;
+      width: 250%; height: 250%;
       background:
-        radial-gradient(circle at 30% 30%, rgba(196,108,255,0.15), transparent 60%),
-        radial-gradient(circle at 70% 70%, rgba(164,91,255,0.15), transparent 60%);
-      animation: rotateBG 25s linear infinite;
-      z-index: 0;
+        radial-gradient(circle at 30% 30%, rgba(196,108,255,0.25), transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(164,91,255,0.25), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(100,150,255,0.1), transparent 70%);
+      animation: rotateBG 20s linear infinite;
+      z-index: -1;
     }
-    @keyframes rotateBG { to { transform: rotate(360deg) scale(1.1); } }
+    @keyframes rotateBG { 0% { transform: rotate(0deg) scale(1); } 100% { transform: rotate(360deg) scale(1.15); } }
 
-    .container {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-      gap: 2rem;
-      width: 480px;
-      height: 420px;
-      padding: 3.5rem 2.5rem;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.02);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 0 60px rgba(164,91,255,0.4);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .container:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 0 80px rgba(196,108,255,0.6);
+    /* Particle canvas */
+    #tsparticles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+
+    /* Main container */
+    .container { position: relative; z-index: 1; width: 480px; height: 420px; padding: 4rem 3rem; display: flex; flex-direction: column; align-items: center; gap: 2rem; border-radius: 24px; background: rgba(15,15,25,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 0 70px rgba(164,91,255,0.5); }
+
+    /* Logo glitch */
+    .logo { font-size: 3.4rem; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(164,91,255,0.7); position: relative; display: inline-block; overflow: hidden; }
+    .logo:hover { animation: glitch 1s steps(2) infinite; }
+    @keyframes glitch {
+      0% { clip-path: inset(0 0 5% 0); transform: translate(0); }
+      20% { clip-path: inset(5% 0 0 0); transform: translate(-2px,2px); }
+      40% { clip-path: inset(0 0 5% 0); transform: translate(2px,-2px); }
+      60% { clip-path: inset(5% 0 0 0); transform: translate(-2px,-2px); }
+      80% { clip-path: inset(0 0 5% 0); transform: translate(2px,2px); }
+      100% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
-    .logo {
-      font-size: 3.4rem;
-      font-weight: 800;
-      color: #fff;
-      text-shadow: 0 0 24px rgba(196,108,255,0.6);
-      margin-bottom: 0;
-    }
+    /* Strapline & tagline */
+    .strapline { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+    .tagline { font-size: 1.4rem; letter-spacing: 2px; white-space: nowrap; overflow: hidden; border-right: .15em solid rgba(196,108,255,0.8); width: 0; animation: typing 3s steps(20,end) 0.7s forwards, blink 0.75s step-end infinite; }
+    @keyframes typing { to { width: 20ch; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+    .divider { width: 100px; height: 2px; background: linear-gradient(90deg,#a45bff,#c46cff); filter: drop-shadow(0 0 6px rgba(196,108,255,0.7)); }
 
-    .strapline {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .tagline {
-      font-size: 1.4rem;
-      letter-spacing: 2px;
-      color: #e0d0ff;
-      text-shadow: 0 0 12px rgba(164,140,255,0.5);
-      margin-bottom: 0.5rem;
-    }
-
-    .divider {
-      width: 100px;
-      height: 2px;
-      background: linear-gradient(90deg, #a45bff, #c46cff);
-      border-radius: 1px;
-      filter: drop-shadow(0 0 6px rgba(196,108,255,0.7));
-    }
-
-    .mic-btn {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #a45bff, #c46cff);
-      box-shadow:
-        0 0 40px rgba(164,91,255,0.7),
-        0 0 80px rgba(196,108,255,0.6),
-        inset 0 0 14px rgba(255,255,255,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      animation: pulseBtn 3s ease-out infinite;
-      margin-top: 1rem;
-    }
-    .mic-btn:hover { transform: scale(1.2); }
-    @keyframes pulseBtn {
-      0%,100% {
-        box-shadow:
-          0 0 30px rgba(164,91,255,0.6),
-          0 0 60px rgba(196,108,255,0.5),
-          inset 0 0 12px rgba(255,255,255,0.2);
-      }
-      50% {
-        box-shadow:
-          0 0 60px rgba(164,91,255,0.85),
-          0 0 120px rgba(196,108,255,0.7),
-          inset 0 0 20px rgba(255,255,255,0.3);
-      }
-    }
+    /* Microphone button */
+    .mic-btn { position: relative; z-index: 2; width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(145deg,#a45bff,#c46cff); box-shadow: 0 0 40px rgba(164,91,255,0.7), inset 0 0 14px rgba(255,255,255,0.25); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.1s ease-out; }
     .mic-btn svg { width: 56px; height: 56px; fill: #fff; }
+
+    /* Wave effect */
+    .wave { position: absolute; top: 50%; left: 50%; width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(196,108,255,0.6); transform: translate(-50%,-50%) scale(0); opacity: 0; }
+    .wave.animate { animation: wavePulse 1.5s ease-out forwards; }
+    @keyframes wavePulse { 0% { transform: translate(-50%,-50%) scale(0.1); opacity: 0.8; } 100% { transform: translate(-50%,-50%) scale(2); opacity: 0; } }
   </style>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
-  <div class="container">
+  <!-- Particle background -->
+  <div id="tsparticles"></div>
+
+  <div class="container" data-tilt data-tilt-max="15" data-tilt-scale="1.05">
     <div class="logo">g-<span>Voice</span></div>
-    <div class="strapline">
-      <div class="tagline">Conversational DNA</div>
-      <div class="divider"></div>
-    </div>
-    <div class="mic-btn" onclick="startCall()">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/>
-        <path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.08A7 7 0 0 0 19 11z"/>
-      </svg>
-    </div>
+    <div class="strapline"><div class="tagline">Conversational DNA</div><div class="divider"></div></div>
+    <div class="mic-btn" onclick="startCall()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.08A7 7 0 0 0 19 11z"/></svg></div>
   </div>
 
   <script>
-    function startCall() {
-      alert("Call initiated with g-Voice!");
-    }
+    // Initialize particles
+    tsParticles.load('tsparticles',{ fpsLimit:60, particles:{ number:{value:150,density:{enable:true,area:1000}},color:{value:['#a45bff','#c46cff','#ffffff','#8a2be2']},shape:{type:['circle','triangle']},opacity:{value:{min:0.1,max:0.6},animation:{enable:true,speed:0.8,minimumValue:0.1}},size:{value:{min:1,max:4},animation:{enable:true,speed:4,minimumValue:0.5}},move:{enable:true,speed:2.5,random:true,straight:false,outModes:{default:'out'},trail:{enable:true,length:8,fillColor:'#050509'}},links:{enable:true,distance:100,color:'random',opacity:0.4,width:1.5}},interactivity:{events:{onHover:{enable:true,mode:'repulse'}},modes:{repulse:{distance:120,duration:0.4}}},detectRetina:true,background:{color:'#050509'}});
+
+    // Tilt effect
+    VanillaTilt.init(document.querySelector('.container'));
+
+    // Entrance animations
+    gsap.from('.logo',{y:-50,opacity:0,duration:1,ease:'power3.out'});
+    gsap.from('.strapline',{y:50,opacity:0,duration:1,delay:0.5,ease:'power3.out'});
+    gsap.from('.mic-btn',{scale:0,opacity:0,duration:1,delay:1,ease:'back.out(1.7)',clearProps:'transform'});
+
+    // Audio animation
+    const micBtn=document.querySelector('.mic-btn');let audioCtx,analyser,dataArray,isAnimating=false;
+    async function startCall(){if(audioCtx&&audioCtx.state==='running')return;alert('Call initiated with g-Voice!');try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});audioCtx=new(window.AudioContext||window.webkitAudioContext)();const source=audioCtx.createMediaStreamSource(stream);analyser=audioCtx.createAnalyser();analyser.fftSize=256;analyser.smoothingTimeConstant=0.6;source.connect(analyser);dataArray=new Uint8Array(analyser.frequencyBinCount);if(!isAnimating){animateVoice();isAnimating=true;}}catch(err){console.error('Error accessing microphone:',err);alert('Could not access microphone. Please ensure permission is granted.');}}
+    function animateVoice(){if(!audioCtx||audioCtx.state==='closed'){isAnimating=false;gsap.to(micBtn,{scale:1,duration:0.3});return;}requestAnimationFrame(animateVoice);analyser.getByteFrequencyData(dataArray);const avg=dataArray.reduce((a,b)=>a+b,0)/dataArray.length;const scale=1+(avg/255)*0.3;gsap.to(micBtn,{scale,duration:0.1,ease:'power1.out'});if(avg>100&&Math.random()>0.85)createWave();}
+    let waveCount=0,MAX_WAVES=5;function createWave(){if(waveCount>=MAX_WAVES)return;waveCount++;const wave=document.createElement('div');wave.className='wave animate';micBtn.appendChild(wave);wave.addEventListener('animationend',()=>{wave.remove();waveCount--;});}
+    window.addEventListener('beforeunload',()=>{if(audioCtx&&audioCtx.state!=='closed')audioCtx.close();});
   </script>
 </body>
 </html>
