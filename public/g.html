@@ -49,6 +49,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      /* --- POSITIONING NOTE --- */
+      /* Increase 'gap' below to push the microphone button further down */
       gap: 2vh;
       border-radius: 2rem;
       background: rgba(15,15,25,0.1);
@@ -94,6 +96,7 @@
     .divider {
       width: clamp(4rem, 20vw, 100px);
       height: 2px;
+	   margin-top: 2vh;
       background: linear-gradient(90deg,#a45bff,#c46cff);
       filter: drop-shadow(0 0 6px rgba(196,108,255,0.7));
     }
@@ -102,8 +105,13 @@
     .mic-btn {
       position: relative;
       z-index: 2;
+      /* --- SIZE NOTE --- */
+      /* Adjust the 'clamp' values below to change the final size */
       width: clamp(80px, 25vw, 120px);
       height: clamp(80px, 25vw, 120px);
+      /* --- POSITIONING NOTE --- */
+      /* Alternatively, add 'margin-top' here to push the button down */
+      margin-top: 3vh;
       border-radius: 50%;
       background: linear-gradient(145deg,#a45bff,#c46cff);
       box-shadow: 0 0 40px rgba(164,91,255,0.7), inset 0 0 14px rgba(255,255,255,0.25);
@@ -112,9 +120,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      /* Start scaled down and invisible */
+      transform: scale(0.01);
+      opacity: 0;
+      /* Transition for audio feedback scaling (keep short) */
       transition: transform 0.1s ease-out;
     }
     .mic-btn svg {
+      /* --- SIZE NOTE --- */
+      /* Adjust the icon size relative to the button size */
       width: clamp(32px, 10vw, 56px);
       height: clamp(32px, 10vw, 56px);
       fill: #fff;
@@ -175,8 +189,145 @@
   </div>
 
   <script>
-    // Initialize particles
-    tsParticles.load('tsparticles', { fpsLimit:60, particles:{ number:{value:150,density:{enable:true,area:1000}},color:{value:['#a45bff','#c46cff','#ffffff','#8a2be2']},shape:{type:['circle','triangle']},opacity:{value:{min:0.1,max:0.6},animation:{enable:true,speed:0.8,minimumValue:0.1}},size:{value:{min:1,max:4},animation:{enable:true,speed:4,minimumValue:0.5}},move:{enable:true,speed:2.5,random:true,straight:false,outModes:{default:'out'},trail:{enable:true,length:8,fillColor:'#050509'}},links:{enable:true,distance:100,color:'random',opacity:0.4,width:1.5}},interactivity:{events:{onHover:{enable:true,mode:'repulse'}},modes:{repulse:{distance:120,duration:0.4}}},detectRetina:true,background:{color:'#050509'}});
+    // --- Configuration ---
+    // Duration (in seconds) for the microphone button to grow in
+    const micButtonAppearDuration = 30; // <-- Adjust this value (e.g., 1, 1.5, 2, 3)
+
+    // --- Particle Configurations ---
+    const originalParticleOptions = {
+      fpsLimit: 60,
+      particles: {
+        number: { value: 150, density: { enable: true, area: 1000 } },
+        color: { value: ['#a45bff', '#c46cff', '#ffffff', '#8a2be2'] },
+        shape: { type: ['circle', 'triangle'] },
+        opacity: { value: { min: 0.1, max: 0.6 }, animation: { enable: true, speed: 0.8, minimumValue: 0.1 } },
+        size: { value: { min: 1, max: 4 }, animation: { enable: true, speed: 4, minimumValue: 0.5 } },
+        move: { enable: true, speed: 2.5, random: true, straight: false, outModes: { default: 'out' }, trail: { enable: true, length: 8, fillColor: '#050509' } },
+        links: { enable: true, distance: 100, color: 'random', opacity: 0.4, width: 1.5 }
+      },
+      interactivity: {
+        events: { onHover: { enable: true, mode: 'repulse' } },
+        modes: { repulse: { distance: 120, duration: 0.4 } }
+      },
+      detectRetina: true,
+      background: { color: '#050509' }
+    };
+
+    // --- Special Effect Variations for "The DNA of conversation" ---
+    const crazyParticleOptions1 = { /* ... variation 1 config ... */
+      fpsLimit: 60,
+      particles: {
+        number: { value: 250, density: { enable: true, area: 800 } }, // More particles
+        color: { value: ['#a45bff', '#c46cff', '#ffffff', '#ff80ff', '#8a2be2'] }, // Added brighter pink
+        shape: { type: ['circle', 'triangle', 'star'] }, // Added star
+        opacity: { value: { min: 0.2, max: 0.8 }, animation: { enable: true, speed: 1.2, minimumValue: 0.2 } }, // Slightly higher opacity/speed
+        size: { value: { min: 1, max: 5 }, animation: { enable: true, speed: 6, minimumValue: 0.5 } }, // Slightly larger/faster size change
+        move: { enable: true, speed: 5, random: true, straight: false, outModes: { default: 'out' }, trail: { enable: true, length: 10, fillColor: '#050509' } }, // Faster speed, longer trail
+        links: { enable: true, distance: 120, color: 'random', opacity: 0.6, width: 2 } // Stronger links
+      },
+      interactivity: {
+        events: { onHover: { enable: true, mode: 'repulse' } },
+        modes: { repulse: { distance: 150, duration: 0.4 } } // Stronger repulse
+      },
+      detectRetina: true,
+      background: { color: '#050509' }
+    };
+    const crazyParticleOptions2 = { /* ... variation 2 config ... */
+      fpsLimit: 60,
+      particles: {
+        number: { value: 300, density: { enable: true, area: 600 } }, // Even more particles
+        color: { value: ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#00ffff', '#ff00ff', '#ffffff'] }, // Rainbow chaos
+        shape: { type: 'circle' }, // Simple shape for speed clarity
+        opacity: { value: { min: 0.5, max: 1.0 } }, // Mostly opaque
+        size: { value: { min: 2, max: 4 } }, // Consistent small size
+        move: {
+          enable: true,
+          speed: 18, // Very fast
+          direction: "none",
+          random: true,
+          straight: false,
+          outModes: { default: 'bounce' }, // Bounce off edges
+          attract: { enable: false },
+          trail: { enable: false } // No trails
+        },
+        links: { enable: false } // No links
+      },
+      interactivity: {
+        events: { onHover: { enable: true, mode: 'bubble' } }, // Bubble effect on hover
+        modes: { bubble: { distance: 100, size: 10, opacity: 0.8 } }
+      },
+      detectRetina: true,
+      background: { color: '#050509' }
+    };
+    const crazyParticleOptions3 = { /* ... variation 3 config ... */
+        fpsLimit: 60,
+        particles: {
+            number: { value: 80, density: { enable: true, area: 800 } }, // Fewer particles
+            color: { value: ["#00ffff", "#00ff80", "#40e0d0", "#ffffff"] }, // Cyan/Green/Teal palette
+            shape: { type: "star" }, // Star shapes
+            opacity: { value: { min: 0.3, max: 0.9 } },
+            size: { value: { min: 4, max: 8 }, animation: { enable: true, speed: 5, minimumValue: 3 } }, // Larger particles
+            move: {
+                enable: true,
+                speed: 4,
+                direction: "none",
+                random: false, // Not random direction initially
+                straight: false,
+                outModes: { default: "out" },
+                attract: { enable: true, rotateX: 1200, rotateY: 1200, distance: 200 }, // Strong attraction
+                gravity: { enable: true, acceleration: 2 }, // Pulled downwards slightly
+                trail: { enable: true, length: 5, fillColor: "#050509" }
+            },
+            links: { enable: false }
+        },
+        interactivity: {
+            events: { onHover: { enable: true, mode: "push" } }, // Push particles away
+            modes: { push: { quantity: 4 } }
+        },
+        detectRetina: true,
+        background: { color: "#050509" }
+    };
+    const crazyParticleOptions4 = { /* ... variation 4 config ... */
+        fpsLimit: 60,
+        particles: {
+            number: { value: 100, density: { enable: true, area: 1000 } },
+            color: { value: ["#ffffff", "#c0c0c0", "#87cefa"] }, // White/Silver/Light Blue
+            shape: { type: "circle" },
+            opacity: { value: 1.0 }, // Fully opaque head
+            size: { value: 2 }, // Small heads
+            move: {
+                enable: true,
+                speed: {min: 15, max: 25}, // Very high speed range
+                direction: "top", // Streaking upwards
+                random: false,
+                straight: true, // Move straight
+                outModes: { default: "destroy", top: "out" }, // Destroy when off screen, except top
+                attract: { enable: false },
+                trail: {
+                    enable: true,
+                    length: 30, // Long trails
+                    fillColor: "#050509" // Trail fades into background
+                }
+            },
+            links: { enable: false }
+        },
+        interactivity: { // Minimal interactivity for warp effect
+            events: { onHover: { enable: false } },
+        },
+        detectRetina: true,
+        background: { color: "#050509" }
+    };
+
+    // Array containing all the special effect variations
+    const specialEffects = [
+        crazyParticleOptions1,
+        crazyParticleOptions2,
+        crazyParticleOptions3,
+        crazyParticleOptions4
+    ];
+
+    // Initialize particles with original options
+    tsParticles.load('tsparticles', originalParticleOptions);
 
     // Tilt effect
     VanillaTilt.init(document.querySelector('.container'));
@@ -184,19 +335,30 @@
     // Entrance animations
     gsap.from('.logo',{y:-50,opacity:0,duration:1,ease:'power3.out'});
     gsap.from('.strapline',{y:50,opacity:0,duration:1,delay:0.5,ease:'power3.out'});
-    gsap.from('.mic-btn',{scale:0,opacity:0,duration:1,delay:1,ease:'back.out(1.7)',clearProps:'transform'});
+    // Animate microphone button from tiny to full size
+    gsap.to('.mic-btn',{
+        scale: 1, // Animate to full scale
+        opacity: 1, // Animate to full opacity
+        duration: micButtonAppearDuration, // Use the configurable duration
+        delay: 1, // Start after logo and strapline
+        ease:'power2.out' // Smooth easing
+    });
 
     // Strapline typing sequence
     document.addEventListener('DOMContentLoaded', () => {
       const lines = [
         "The future isn't scripted",
-        "It's digital consciousness",
+		"Conversations are not flow-charts",
+        "You need digital consciousness",
         "Conversational intelligence",
-        "The DNA of conversation"
+        "The DNA of conversation" // The special line
       ];
       const taglineEl = document.querySelector('.tagline');
+      const specialLine = "The DNA of conversation";
+      const defaultTypingSpeed = 100; // ms per character
+      const specialTypingSpeed = 300; // ms per character (3x slower)
 
-      function typeText(el, text, callback) {
+      function typeText(el, text, speed, callback) {
         el.textContent = '';
         el.style.whiteSpace = 'nowrap';
         el.style.overflow = 'hidden';
@@ -208,22 +370,38 @@
           if (i >= text.length) {
             clearInterval(interval);
             el.style.borderRight = 'none';
-            if (callback) callback();
+            if (callback) callback(text);
           }
-        }, 100);
+        }, speed);
       }
 
       function showLine(index) {
-        typeText(taglineEl, lines[index], () => {
+        const currentLineText = lines[index];
+        let typingSpeed = defaultTypingSpeed;
+        let selectedEffect = null;
+
+        if (currentLineText === specialLine) {
+          const randomIndex = 0 //Math.floor(Math.random() * specialEffects.length);
+          selectedEffect = specialEffects[randomIndex];
+          console.log(`Activating special effect variation #${randomIndex + 1} for:`, currentLineText);
+          tsParticles.load('tsparticles', selectedEffect);
+          typingSpeed = specialTypingSpeed;
+        }
+
+        typeText(taglineEl, currentLineText, typingSpeed, (typedText) => {
+          if (typedText === specialLine) {
+            console.log("Reverting particles after:", typedText);
+            tsParticles.load('tsparticles', originalParticleOptions);
+          }
+
           if (index < lines.length - 1) {
             setTimeout(() => showLine(index + 1), 5000);
           } else {
-            taglineEl.style.whiteSpace = 'normal';
-            taglineEl.style.overflow = 'visible';
+             taglineEl.style.whiteSpace = 'normal';
+             taglineEl.style.overflow = 'visible';
           }
         });
       }
-
       showLine(0);
     });
 
@@ -249,13 +427,16 @@
     function animateVoice() {
       if (!audioCtx || audioCtx.state === 'closed') {
         isAnimating = false;
+        // Ensure button returns to scale 1 when animation stops
         gsap.to(micBtn, { scale: 1, duration: 0.3 });
         return;
       }
       requestAnimationFrame(animateVoice);
       analyser.getByteFrequencyData(dataArray);
       const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+      // Base scale is 1, add pulse based on audio avg
       const scale = 1 + (avg / 255) * 0.3;
+      // Use GSAP for smooth scaling during audio feedback
       gsap.to(micBtn, { scale, duration: 0.1, ease: 'power1.out' });
       if (avg > 100 && Math.random() > 0.85) createWave();
     }
