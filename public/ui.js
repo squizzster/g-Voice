@@ -1,7 +1,7 @@
 // ui.js – Consolidated UI logic
 
 // --- Configuration ---
-const micButtonAppearDuration = 30; // seconds
+const micButtonAppearDuration = 70; // seconds
 
 // --- Particle Configurations ---
 const originalParticleOptions = {
@@ -195,26 +195,42 @@ document.addEventListener('DOMContentLoaded', () => {
       w.addEventListener('animationend', () => { w.remove(); waveCount--; });
     }
   }
+// UI.js — add these two helpers
+function showRecordingUI() {
+  micBtn.classList.add('recording');
+}
 
-  async function startCall() {
-    if (!window.gVoiceAudio.isRecording()) {
-      //alert('Call initiated with g-Voice!');
-      await window.gVoiceAudio.startStreaming();
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      const src    = audioCtx.createMediaStreamSource(stream);
-      analyser     = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.6;
-      src.connect(analyser);
-      dataArr = new Uint8Array(analyser.frequencyBinCount);
-      if (!isAnimating) { isAnimating=true; animateVoice(); }
-    } else {
-      window.gVoiceAudio.stopStreaming();
-      if (audioCtx) audioCtx.close();
-      isAnimating = false;
+function hideRecordingUI() {
+  micBtn.classList.remove('recording');
+}
+
+async function startCall() {
+  if (!window.gVoiceAudio.isRecording()) {
+    // === START RECORDING ===
+    await window.gVoiceAudio.startStreaming();
+    showRecordingUI();
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const src    = audioCtx.createMediaStreamSource(stream);
+    analyser     = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    analyser.smoothingTimeConstant = 0.6;
+    src.connect(analyser);
+    dataArr = new Uint8Array(analyser.frequencyBinCount);
+    if (!isAnimating) { isAnimating = true; animateVoice(); }
+
+  } else {
+    // === STOP RECORDING ===
+    window.gVoiceAudio.stopStreaming();
+    hideRecordingUI();
+    if (audioCtx) {
+      audioCtx.close();
+      audioCtx = null;
     }
+    isAnimating = false;
   }
+}
 
   micBtn.addEventListener('click', startCall);
   window.addEventListener('beforeunload', () => { if (audioCtx) audioCtx.close(); });

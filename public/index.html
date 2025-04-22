@@ -7,6 +7,31 @@
 
   <!-- Core Styles -->
   <style>
+  
+  /* give the mic a pulsing red glow and a small “live” dot */
+.mic-btn.recording {
+  animation: recordingPulse 1s ease-in-out infinite;
+  box-shadow:
+    0 0 20px rgba(255,0,0,0.6),
+    inset 0 0 10px rgba(255,0,0,0.4);
+}
+
+.mic-btn.recording::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 10px;
+  height: 10px;
+  background: #ff4b4b;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255,75,75,0.8);
+}
+
+@keyframes recordingPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
     /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; overflow-x: hidden; overflow-y: auto; }
