@@ -7,6 +7,31 @@
 
   <!-- Core Styles -->
   <style>
+  
+  /* give the mic a pulsing red glow and a small “live” dot */
+.mic-btn.recording {
+  animation: recordingPulse 1s ease-in-out infinite;
+  box-shadow:
+    0 0 20px rgba(255,0,0,0.6),
+    inset 0 0 10px rgba(255,0,0,0.4);
+}
+
+.mic-btn.recording::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 10px;
+  height: 10px;
+  background: #ff4b4b;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255,75,75,0.8);
+}
+
+@keyframes recordingPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
     /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; overflow-x: hidden; overflow-y: auto; }
@@ -20,6 +45,7 @@
       position: relative;
       padding: 1rem;
     }
+
     /* Rotating glow background */
     body::before {
       content: '';
@@ -42,9 +68,12 @@
     .container {
       position: relative;
       z-index: 1;
-      width: 90vw; max-width: 480px;
+      width: 90vw;
+      max-width: 480px;
       padding: 4vw 3vw;
-      display: flex; flex-direction: column; align-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 2vh;
       border-radius: 2rem;
       background: rgba(15,15,25,0.1);
@@ -53,25 +82,27 @@
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
       animation: borderGlow 4s ease-in-out infinite;
     }
+
     @keyframes borderGlow {
       0%,100% { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-      50%      { box-shadow: 0 0 30px rgba(255,255,255,0.6); }
+      50%     { box-shadow: 0 0 30px rgba(255,255,255,0.6); }
     }
 
-    /* Logo glitch */
     .logo {
       font-size: clamp(2rem, 8vw, 3.4rem);
       font-weight: 800;
+      color: #fff;
       text-shadow: 0 0 10px rgba(164,91,255,0.7);
-      position: relative; display: inline-block; overflow: hidden;
+      display: inline-block;
+      overflow: hidden;
     }
     .logo:hover { animation: glitch 1s steps(2) infinite; }
     @keyframes glitch {
-      0%   { clip-path: inset(0 0 5% 0); transform: translate(0); }
-      20%  { clip-path: inset(5% 0 0 0); transform: translate(-2px,2px); }
-      40%  { clip-path: inset(0 0 5% 0); transform: translate(2px,-2px); }
-      60%  { clip-path: inset(5% 0 0 0); transform: translate(-2px,-2px); }
-      80%  { clip-path: inset(0 0 5% 0); transform: translate(2px,2px); }
+      0% { clip-path: inset(0 0 5% 0); transform: translate(0); }
+      20% { clip-path: inset(5% 0 0 0); transform: translate(-2px,2px); }
+      40% { clip-path: inset(0 0 5% 0); transform: translate(2px,-2px); }
+      60% { clip-path: inset(5% 0 0 0); transform: translate(-2px,-2px); }
+      80% { clip-path: inset(0 0 5% 0); transform: translate(2px,2px); }
       100% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
@@ -79,7 +110,8 @@
     .tagline {
       font-size: clamp(1rem, 4vw, 1.4rem);
       letter-spacing: 2px;
-      white-space: nowrap; overflow: hidden;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .divider {
       width: clamp(4rem, 20vw, 100px);
@@ -89,42 +121,53 @@
       filter: drop-shadow(0 0 6px rgba(196,108,255,0.7));
     }
 
-    /* Microphone button */
     .mic-btn {
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
       width: clamp(80px, 25vw, 120px);
       height: clamp(80px, 25vw, 120px);
       margin-top: 3vh;
       border-radius: 50%;
       background: linear-gradient(145deg,#a45bff,#c46cff);
       box-shadow: 0 0 40px rgba(164,91,255,0.7), inset 0 0 14px rgba(255,255,255,0.25);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transform: scale(0.01); opacity: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.01);
+      opacity: 0;
       transition: transform 0.1s ease-out;
     }
-    .mic-btn svg { width: clamp(32px, 10vw, 56px); height: clamp(32px, 10vw, 56px); fill: #fff; }
-    .mic-btn.recording {
-      box-shadow: 0 0 60px rgba(255,50,50,0.8), inset 0 0 20px rgba(255,100,100,0.5);
+    .mic-btn svg {
+      width: clamp(32px, 10vw, 56px);
+      height: clamp(32px, 10vw, 56px);
+      fill: #fff;
     }
 
-    /* Wave effect */
     .wave {
-      position: absolute; top:50%; left:50%;
-      width: inherit; height: inherit; border-radius:50%;
+      position: absolute;
+      top: 50%; left: 50%;
+      width: inherit; height: inherit;
+      border-radius: 50%;
       border: 3px solid rgba(196,108,255,0.6);
       transform: translate(-50%,-50%) scale(0);
       opacity: 0;
     }
     .wave.animate { animation: wavePulse 1.5s ease-out forwards; }
     @keyframes wavePulse {
-      0%   { transform: translate(-50%,-50%) scale(0.1); opacity: 0.8; }
-      100% { transform: translate(-50%,-50%) scale(2);   opacity: 0;   }
+      0% { transform: translate(-50%-50%) scale(0.1); opacity: 0.8; }
+      100% { transform: translate(-50%-50%) scale(2); opacity: 0; }
     }
 
-    /* Responsive */
-    @media (max-width: 600px)  { .container { width: 95vw; padding: 6vw 4vw; } }
-    @media (min-width:601px) and (max-width:1024px) { .container { width:90vw; padding:5vw 3.5vw; } }
-    @media (min-width:1025px) { .container { width:80vw; max-width:480px; padding:4vw 3vw; } }
+    @media (max-width:600px) {
+      .container { width:95vw; padding:6vw 4vw; }
+    }
+    @media (min-width:601px) and (max-width:1024px) {
+      .container { width:90vw; padding:5vw 3.5vw; }
+    }
+    @media (min-width:1025px) {
+      .container { width:80vw; max-width:480px; padding:4vw 3vw; }
+    }
   </style>
 
   <!-- Libraries -->
@@ -142,294 +185,12 @@
       <div class="tagline"></div>
       <div class="divider"></div>
     </div>
-    <div class="mic-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.08A7 7 0 0 0 19 11z"/></svg></div>
-  </div>
+    <div class="mic-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/>
+      <path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.08A7 7 0 0 0 19 11z"/>
+    </svg></div>
 
-  <!-- UI Effects + Typewriter + Waves -->
-  <script>
-    // Duration for mic button entrance (sec)
-    const micButtonAppearDuration = 30;
-
-    // Particle configs
-    const originalParticleOptions = {
-      fpsLimit: 60,
-      particles: {
-        number: { value: 150, density: { enable: true, area: 1000 } },
-        color: { value: ['#a45bff','#c46cff','#ffffff','#8a2be2'] },
-        shape: { type: ['circle','triangle'] },
-        opacity: { value:{min:0.1,max:0.6},animation:{enable:true,speed:0.8,minimumValue:0.1} },
-        size: { value:{min:1,max:4},animation:{enable:true,speed:4,minimumValue:0.5} },
-        move: { enable:true,speed:2.5,random:true,straight:false,
-                outModes:{default:'out'},trail:{enable:true,length:8,fillColor:'#050509'} },
-        links:{enable:true,distance:100,color:'random',opacity:0.4,width:1.5}
-      },
-      interactivity:{
-        events:{onHover:{enable:true,mode:'repulse'}},
-        modes:{repulse:{distance:120,duration:0.4}}
-      },
-      detectRetina:true,
-      background:{color:'#050509'}
-    };
-    const crazyParticleOptions1 = {
-      fpsLimit:60,
-      particles:{
-        number:{value:250,density:{enable:true,area:800}},
-        color:{value:['#a45bff','#c46cff','#ffffff','#ff80ff','#8a2be2']},
-        shape:{type:['circle','triangle','star']},
-        opacity:{value:{min:0.2,max:0.8},animation:{enable:true,speed:1.2,minimumValue:0.2}},
-        size:{value:{min:1,max:5},animation:{enable:true,speed:6,minimumValue:0.5}},
-        move:{enable:true,speed:5,random:true,straight:false,
-              outModes:{default:'out'},trail:{enable:true,length:10,fillColor:'#050509'}},
-        links:{enable:true,distance:120,color:'random',opacity:0.6,width:2}
-      },
-      interactivity:{
-        events:{onHover:{enable:true,mode:'repulse'}},
-        modes:{repulse:{distance:150,duration:0.4}}
-      },
-      detectRetina:true,
-      background:{color:'#050509'}
-    };
-    const crazyParticleOptions2 = {
-      fpsLimit:60,
-      particles:{
-        number:{value:300,density:{enable:true,area:600}},
-        color:{value:['#ff0000','#ff7f00','#ffff00','#00ff00','#00ffff','#ff00ff','#ffffff']},
-        shape:{type:'circle'},
-        opacity:{value:{min:0.5,max:1.0}},
-        size:{value:{min:2,max:4}},
-        move:{enable:true,speed:18,direction:'none',random:true,straight:false,
-              outModes:{default:'bounce'},trail:{enable:false}},
-        links:{enable:false}
-      },
-      interactivity:{
-        events:{onHover:{enable:true,mode:'bubble'}},
-        modes:{bubble:{distance:100,size:10,opacity:0.8}}
-      },
-      detectRetina:true,
-      background:{color:'#050509'}
-    };
-    const crazyParticleOptions3 = {
-      fpsLimit:60,
-      particles:{
-        number:{value:80,density:{enable:true,area:800}},
-        color:{value:['#00ffff','#00ff80','#40e0d0','#ffffff']},
-        shape:{type:'star'},
-        opacity:{value:{min:0.3,max:0.9}},
-        size:{value:{min:4,max:8},animation:{enable:true,speed:5,minimumValue:3}},
-        move:{enable:true,speed:4,direction:'none',random:false,straight:false,
-              outModes:{default:'out'},
-              attract:{enable:true,rotateX:1200,rotateY:1200,distance:200},
-              gravity:{enable:true,acceleration:2},
-              trail:{enable:true,length:5,fillColor:'#050509'}},
-        links:{enable:false}
-      },
-      interactivity:{
-        events:{onHover:{enable:true,mode:'push'}},
-        modes:{push:{quantity:4}}
-      },
-      detectRetina:true,
-      background:{color:'#050509'}
-    };
-    const crazyParticleOptions4 = {
-      fpsLimit:60,
-      particles:{
-        number:{value:100,density:{enable:true,area:1000}},
-        color:{value:['#ffffff','#c0c0c0','#87cefa']},
-        shape:{type:'circle'},
-        opacity:{value:1.0},
-        size:{value:2},
-        move:{enable:true,speed:{min:15,max:25},direction:'top',random:false,straight:true,
-              outModes:{default:'destroy',top:'out'},
-              trail:{enable:true,length:30,fillColor:'#050509'}},
-        links:{enable:false}
-      },
-      interactivity:{events:{onHover:{enable:false}}},
-      detectRetina:true,
-      background:{color:'#050509'}
-    };
-    const specialEffects = [
-      crazyParticleOptions1,
-      crazyParticleOptions2,
-      crazyParticleOptions3,
-      crazyParticleOptions4
-    ];
-
-    // Initialize particles + tilt + entrance animations
-    tsParticles.load('tsparticles', originalParticleOptions);
-    VanillaTilt.init(document.querySelector('.container'));
-    gsap.from('.logo',     { y:-50,opacity:0,duration:1,ease:'power3.out' });
-    gsap.from('.strapline',{ y:50, opacity:0,duration:1,delay:0.5,ease:'power3.out' });
-    gsap.to('.mic-btn',    { scale:1, opacity:1, duration:micButtonAppearDuration, delay:1, ease:'power2.out' });
-
-    // Typewriter
-    document.addEventListener('DOMContentLoaded', () => {
-      const lines = [
-        "The future isn't scripted",
-        "Conversations are not flow-charts",
-        "You need digital consciousness",
-        "Conversational intelligence",
-        "The DNA of conversation"
-      ];
-      const taglineEl        = document.querySelector('.tagline');
-      const specialLine      = "The DNA of conversation";
-      const defaultSpeed     = 100;
-      const specialSpeed     = 300;
-
-      function typeText(el, text, speed, cb) {
-        el.textContent = '';
-        el.style.whiteSpace = 'nowrap';
-        el.style.overflow    = 'hidden';
-        el.style.borderRight = '.15em solid rgba(196,108,255,0.8)';
-        let i = 0;
-        const iv = setInterval(() => {
-          el.textContent += text[i++];
-          if (i >= text.length) {
-            clearInterval(iv);
-            el.style.borderRight = 'none';
-            if (cb) cb(text);
-          }
-        }, speed);
-      }
-
-      function showLine(idx) {
-        const txt = lines[idx];
-        let speed = defaultSpeed;
-        if (txt === specialLine) {
-          const rnd = 0; //Math.floor(Math.random()*specialEffects.length);
-          tsParticles.load('tsparticles', specialEffects[rnd]);
-          speed = specialSpeed;
-        }
-        typeText(taglineEl, txt, speed, (typed) => {
-          if (typed === specialLine) {
-            console.log("Reverting particles after:", typed);
-            tsParticles.load('tsparticles', originalParticleOptions);
-          }
-          if (idx < lines.length - 1) {
-            setTimeout(() => showLine(idx+1), 5000);
-          } else {
-            taglineEl.style.whiteSpace = 'normal';
-            taglineEl.style.overflow    = 'visible';
-          }
-        });
-      }
-      showLine(0);
-    });
-  </script>
-
-  <!-- µ‑Law Recorder & Player Integration -->
-  <script>
-    const ACCOUNT_SID   = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    const CALL_SID      = 'CAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    const STREAM_SID    = 'MZXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    const TRACKS        = ['inbound'];
-    const MEDIA_FORMAT  = { encoding:'audio/x-mulaw', sampleRate:8000, channels:1 };
-    const CUSTOM_PARAMS = {
-      AccountSid: ACCOUNT_SID,
-      ApiVersion: '2010-04-01',
-      CallSid: CALL_SID,
-      CallStatus: 'ringing',
-      Called: 'sip:mk-taxi.sip.dublin.twilio.com++0@mk-taxi.sip.dublin.twilio.com;transport=tls',
-      Caller: 'sip:mk-taxi-1@mk-taxi.sip.twilio.com',
-      CallerName: 'g-booking',
-      Direction: 'inbound',
-      From: 'sip:mk-taxi-1@mk-taxi.sip.twilio.com',
-      SipCallId: '940fc5ccc67748e3bfbef60386f29191',
-      SipDomain: 'mk-taxi.sip.twilio.com',
-      SipDomainSid: 'SD483303cea700b3beaba55febf067dd2b',
-      SipSourceIp: '84.68.185.54',
-      To: 'sip:mk-taxi.sip.dublin.twilio.com++0@mk-taxi.sip.twilio.com;transport=tls',
-      g_voice_check: 'G_VOICE_CHECKING_GOES_HERE_TOKEN'
-    };
-
-    let isRecording = false;
-    let ctx, micStream, sourceNode, recorderNode, playerNode, ws;
-    let seqNum = 1, chunkNum = 1, startTime;
-
-    const micBtn = document.querySelector('.mic-btn');
-    micBtn.addEventListener('click', async () => {
-      if (!isRecording) {
-        micBtn.classList.add('recording');
-        await startStreaming();
-      } else {
-        micBtn.classList.remove('recording');
-        stopStreaming();
-      }
-      isRecording = !isRecording;
-    });
-
-    async function startStreaming() {
-      micStream = await navigator.mediaDevices.getUserMedia({ audio:{ echoCancellation:true } });
-      ctx = new AudioContext({ sampleRate:8000 });
-      await ctx.audioWorklet.addModule('recorderWorklet.js');
-      await ctx.audioWorklet.addModule('playerWorklet.js');
-
-      sourceNode   = ctx.createMediaStreamSource(micStream);
-      recorderNode = new AudioWorkletNode(ctx,'recorder-processor');
-      playerNode   = new AudioWorkletNode(ctx,'player-processor');
-
-      recorderNode.port.onmessage = e => {
-        if (ws&&ws.readyState===WebSocket.OPEN) {
-          const u8 = new Uint8Array(e.data);
-          let bin=''; for(let i=0;i<u8.length;i++) bin+=String.fromCharCode(u8[i]);
-          const b64 = btoa(bin);
-          ws.send(JSON.stringify({
-            event:'media',
-            sequenceNumber:(seqNum++).toString(),
-            media:{
-              track:'inbound', chunk:chunkNum++,
-              timestamp:Math.floor(Date.now()-startTime),
-              payload:b64
-            },
-            streamSid: STREAM_SID
-          }));
-        }
-      };
-
-      sourceNode.connect(recorderNode).connect(ctx.destination);
-      playerNode.connect(ctx.destination);
-      recorderNode.port.postMessage({ command:'start' });
-
-      ws = new WebSocket('wss://api.g-booking.com/gws/audio');
-      ws.binaryType='arraybuffer';
-
-      ws.onopen = () => {
-        startTime = Date.now();
-        ws.send(JSON.stringify({
-          event:'start',
-          sequenceNumber: seqNum++,
-          start:{
-            accountSid:ACCOUNT_SID,
-            callSid:CALL_SID,
-            customParameters:CUSTOM_PARAMS,
-            mediaFormat:MEDIA_FORMAT,
-            streamSid:STREAM_SID,
-            tracks:TRACKS
-          },
-          streamSid:STREAM_SID
-        }));
-      };
-
-      ws.onmessage = evt => {
-        try {
-          const msg = JSON.parse(evt.data);
-          if (msg.event==='media'&&msg.media?.payload) {
-            const bin = atob(msg.media.payload);
-            const buf = new Uint8Array(bin.length);
-            for(let i=0;i<bin.length;i++) buf[i]=bin.charCodeAt(i);
-            playerNode.port.postMessage(buf.buffer, [buf.buffer]);
-          }
-        } catch(e){ console.error('Playback error',e); }
-      };
-    }
-
-    function stopStreaming() {
-      recorderNode.port.postMessage({ command:'stop' });
-      micStream.getTracks().forEach(t=>t.stop());
-      recorderNode.disconnect();
-      playerNode.disconnect();
-      ws.close();
-      ctx.close();
-    }
-  </script>
+  <script src="audio.js"></script>
+  <script src="ui.js"></script>
 </body>
 </html>
