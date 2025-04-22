@@ -1,69 +1,65 @@
-/** AudioWorkletProcessor that resamples 48 kHz → 8 kHz with a very small
- *  linear‑interpolation low‑pass and emits 20 ms (160‑sample) µ‑law frames
- *  to the main thread.
- */
+/** AudioWorkletProcessor: 48 kHz → 8 kHz ↓ + G.711 µ‑law encode */
 class RecorderProcessor extends AudioWorkletProcessor {
-  constructor () {
+  constructor() {
     super();
     this.recording   = false;
-    this.inputRate   = sampleRate;   // whatever the browser runs at (48 k on Chrome)
+    this.inputRate   = sampleRate;
     this.outputRate  = 8000;
     this.ratio       = this.inputRate / this.outputRate;
-    this.inResidual  = new Float32Array(0);    // raw PCM left over from last call
-    this.outResidual = new Uint8Array(0);      // µ‑law not yet posted
-
-    this.port.onmessage = ({data}) => {
+    this.inResidual  = new Float32Array(0);
+    this.outResidual = new Uint8Array(0);
+    this.port.onmessage = ({ data }) => {
       if      (data.command === 'start') this.recording = true;
       else if (data.command === 'stop')  this.recording = false;
     };
   }
 
-  /* G.711 µ‑law encoder */
-  static linearToMuLaw (x) {
+  static linearToMuLaw(x) {
     const MU = 255;
     const sign = x < 0 ? 0x80 : 0;
     x = Math.min(1, Math.abs(x));
     const mag = Math.log1p(MU * x) / Math.log1p(MU);
-    return (sign | (mag * 127) & 0x7F) ^ 0xFF;
+    const idx = Math.min(127, Math.floor(mag * 127 + 0.5));
+    return (sign | (idx & 0x7F)) ^ 0xFF;
   }
 
-  process (inputs) {
+  process(inputs) {
     if (!this.recording) return true;
     const inChan = inputs[0][0];
     if (!inChan?.length) return true;
 
-    /* -------- concat with residual from last callback -------- */
+    // concat leftover + new
     const pcm = new Float32Array(this.inResidual.length + inChan.length);
     pcm.set(this.inResidual);
     pcm.set(inChan, this.inResidual.length);
 
-    /* -------- high‑quality down‑sample with linear interpolation -------- */
+    // downsample & µ‑law encode
     const outLen = Math.floor((pcm.length - 1) / this.ratio);
     const muBuf  = new Uint8Array(outLen);
     for (let i = 0; i < outLen; i++) {
-      const idxF = i * this.ratio;
-      const idx  = idxF | 0;                  // floor
-      const frac = idxF - idx;
-      const sample = pcm[idx] * (1 - frac) + pcm[idx + 1] * frac;
-      muBuf[i] = RecorderProcessor.linearToMuLaw(sample);
+      const f    = i * this.ratio;
+      const idx  = f | 0;
+      const frac = f - idx;
+      const s    = pcm[idx] * (1 - frac) + pcm[idx + 1] * frac;
+      muBuf[i]   = RecorderProcessor.linearToMuLaw(s);
     }
 
-    /* -------- remember unused source samples for next turn -------- */
-    const usedSamples = Math.floor(outLen * this.ratio);
-    this.inResidual = pcm.slice(usedSamples);
+    // stash leftover PCM
+    const used = Math.floor(outLen * this.ratio);
+    this.inResidual = pcm.slice(used);
 
-    /* -------- prepend leftover µ‑law and chunk into 160‑byte frames -------- */
-    let combined = new Uint8Array(this.outResidual.length + muBuf.length);
+    // frame into 160‑byte packets
+    const combined = new Uint8Array(this.outResidual.length + muBuf.length);
     combined.set(this.outResidual);
     combined.set(muBuf, this.outResidual.length);
 
-    const FRAME = 160;                        // 20 ms @ 8 kHz
-    const fullFrames = (combined.length / FRAME) | 0;
-    for (let f = 0; f < fullFrames; f++) {
-      const chunk = combined.slice(f * FRAME, (f + 1) * FRAME);
+    const FRAME = 160, full = (combined.length / FRAME) | 0;
+    for (let i = 0; i < full; i++) {
+      const chunk = combined.slice(i * FRAME, (i + 1) * FRAME);
       this.port.postMessage(chunk.buffer, [chunk.buffer]);
     }
-    this.outResidual = combined.slice(fullFrames * FRAME);
+    this.outResidual = combined.slice(full * FRAME);
+
     return true;
   }
 }
